@@ -9,8 +9,8 @@ import { Alluser_request, host } from "../utils/Apiurl.js";
 import Welcome from "../Compoents/Welcome.jsx";
 import { useNavigate } from "react-router-dom";
 function ChatContainer() {
-  const socket = useRef();
   const navigate = useNavigate();
+  const socket = useRef();
   const [Selected, setSelected] = useState(undefined);
   const [Allfriend, SetAllfriend] = useState([]);
   const [username, setusername] = useState(undefined);
@@ -70,7 +70,6 @@ function ChatContainer() {
         </Box>
       </Box>
       <Box className="w-[70%] ">
-        {/* <Header></Header> */}
         {Selected === undefined ? (
           <Welcome username={username}></Welcome>
         ) : (

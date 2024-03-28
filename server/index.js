@@ -12,7 +12,7 @@ console.clear();
 // we need to connect our mongobd
 Conenectdb();
 // for parsing the  data of apllication we need to use the express.json()  middleware
-console.clear();
+// console.clear();
 //If you are making a cross-origin request, make sure that the server you are trying to access allows requests from your domain. You might need to configure CORS headers on the server side.
 app.use(cors());
 app.use(express.json());

@@ -4,7 +4,6 @@ import mongoose from "mongoose";
 // console.log(mongoose);
 // this is the url of mongodb to connect whatsappchat is name of connection
 const mongodb_url = "mongodb://localhost:27017/WhatsappChat";
-// console.log(mongodb_url);
 
 const connectdb = async () => {
   try {

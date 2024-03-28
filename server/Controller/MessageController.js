@@ -42,6 +42,7 @@ export const Getmessage = async (req, res, next) => {
         msg: message.message.text,
         sender: message.sender,
         receiver: message.receiver,
+        time: message.createdAt,
       };
     });
     res.json({
