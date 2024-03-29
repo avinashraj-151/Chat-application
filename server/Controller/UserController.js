@@ -1,6 +1,7 @@
 // data to yaha tak aayaga ab hamko send kar na esko database me uski liya phele hama model define karna phara gaya ki data ka scheme kisa rahaga
 // console.clear();
 import UserModel from "../Model/UserModel.js";
+import userMessage from "../Model/userMessage.js";
 export const Register = async (req, res, next) => {
   try {
     // console.log(req.body);
@@ -82,6 +83,45 @@ export const Alluser = async (req, res, next) => {
     );
     // console.log(Allusername);
     res.json({ userdata: Allusername, status: true });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const userdata = async (req, res, next) => {
+  try {
+    // console.log(req.body);
+    const { previousname, newname } = req.body;
+    // console.log(typeof newname);
+    // const usernameCheck = await UserModel.findOne({ username: previousname });
+    // console.log(usernameCheck);
+    // here we change the username to newname  but we have to chnage the all message to that previousname
+    const userupdate = await UserModel.updateOne(
+      {
+        username: previousname,
+      },
+      {
+        $set: { username: newname },
+      }
+    );
+    const reciverupdate = await userMessage.updateMany(
+      {
+        receiver: previousname,
+      },
+      {
+        $set: { receiver: newname },
+      }
+    );
+    const senderupdate = await userMessage.updateMany(
+      {
+        sender: previousname,
+      },
+      {
+        $set: { sender: newname },
+      }
+    );
+    // console.log(messageupdate);
+    res.json({ status: true });
   } catch (error) {
     next(error);
   }

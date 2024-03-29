@@ -2,18 +2,18 @@ import { Box } from "@mui/material";
 import Header from "../Compoents/First/Header.jsx";
 import SingleChat from "../Compoents/First/SingleChat.jsx";
 import { io } from "socket.io-client";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useContext } from "react";
 import Chat from "./Chat.jsx";
 import axios from "axios";
 import { Alluser_request, host } from "../utils/Apiurl.js";
 import Welcome from "../Compoents/Welcome.jsx";
 import { useNavigate } from "react-router-dom";
+import { Context } from "../Contextapi/Contextapi.jsx";
 function ChatContainer() {
   const navigate = useNavigate();
-  const socket = useRef();
-  const [Selected, setSelected] = useState(undefined);
   const [Allfriend, SetAllfriend] = useState([]);
-  const [username, setusername] = useState(undefined);
+  const { username, setusername, socket, setSelected, Selected } =
+    useContext(Context);
   function handelopen(username) {
     setSelected(username);
   }

@@ -1,12 +1,17 @@
 import { Box } from "@mui/material";
-import { useRef, useEffect } from "react";
-function ChatMessage({ messages, Sender, Reciver }) {
+import { useRef, useEffect, useContext } from "react";
+import { Context } from "../../Contextapi/Contextapi";
+function ChatMessage({ messages }) {
+  // console.log(messages);
   const scrollRef = useRef(null);
+  const { username } = useContext(Context);
+  // console.log(username);
   useEffect(() => {
-    // console.log(scrollRef.current);
-    // console.log(messages);
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+  useEffect(() => {
+    messages.forEach((message) => console.log(message));
+  }, [username]);
   function formatTimeDifference(createdAt) {
     const currentTime = new Date();
     const createdTime = new Date(createdAt);
@@ -36,12 +41,12 @@ function ChatMessage({ messages, Sender, Reciver }) {
             <div ref={scrollRef}>
               <div
                 className={` flex ${
-                  message.sender === Sender ? "justify-end" : "justify-start"
+                  message.sender === username ? "justify-end" : "justify-start"
                 }`}
               >
                 <div
                   className={`max-w-[40%] break-words text-xl p-4 rounded-xl flex flex-col ${
-                    message.sender === Sender
+                    message.sender === username
                       ? "bg-white text-black"
                       : "bg-[#11348F]"
                   } gap-1`}

@@ -3,12 +3,14 @@ import ChatHeader from "../Compoents/Second/ChatHeader.jsx";
 import ChatInput from "../Compoents/Second/ChatInput.jsx";
 import ChatMessage from "../Compoents/Second/ChatMessage.jsx";
 import { Box } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Addmessage_request, Getmessage_request } from "../utils/Apiurl.js";
-function Chat({ Selected, username, socket }) {
+import { Context } from "../Contextapi/Contextapi.jsx";
+function Chat() {
   const scrollRef = useRef();
   const [messages, setallmessages] = useState([]);
   const [arrival, setarrival] = useState(undefined);
+  const { Selected, username, socket } = useContext(Context);
   async function handelallmessages(message) {
     const response = await axios.post(Addmessage_request, {
       msg: message,
@@ -45,8 +47,6 @@ function Chat({ Selected, username, socket }) {
   useEffect(() => {
     if (socket.current) {
       socket.current.on("msg-reciver", (msg) => {
-        // console.log(messages);
-        // setallmessages(]);
         setarrival({
           msg: msg,
           receiver: username,
@@ -63,7 +63,6 @@ function Chat({ Selected, username, socket }) {
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
   return (
     <Box className="w-full h-full bg-[#1E5095]">
       <Box className="flex flex-col h-full">
@@ -72,11 +71,7 @@ function Chat({ Selected, username, socket }) {
         </Box>
         {/* 11348F */}
         <Box className="h-[73%] ">
-          <ChatMessage
-            messages={messages}
-            Reciver={Selected}
-            Sender={username}
-          />
+          <ChatMessage messages={messages} />
         </Box>
         <Box className="h-[15%] ">
           <ChatInput setmessage={handelallmessages}></ChatInput>

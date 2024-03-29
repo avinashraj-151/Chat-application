@@ -7,12 +7,13 @@ import {
   MenuItem,
 } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Avtar from "../Avtar";
 import Avatar_img from "../assert/Avtar_image.png";
-function SingleChat({ username, Selected, handelopen, socket }) {
+import { Context } from "../../Contextapi/Contextapi";
+function SingleChat({ username, handelopen }) {
   const [open, setOpen] = useState(false);
-  // console.log(socket);
+  const { socket, Selected } = useContext(Context);
   const [onlineuser, setonlineuser] = useState([]);
   function handelDraweropen(event) {
     setOpen(event.currentTarget);
@@ -23,11 +24,9 @@ function SingleChat({ username, Selected, handelopen, socket }) {
   useEffect(() => {
     if (socket.current)
       socket.current.on("onlineuser", (data) => {
-        console.log("data: ", data);
         setonlineuser(data);
       });
   }, [socket]);
-  // if (onlineuser) console.log(onlineuser);
   return (
     <>
       <Box

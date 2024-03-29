@@ -9,3 +9,5 @@ export const Alluser_request = `${host}/api/auth/user/alluser`;
 export const Addmessage_request = `${host}/message/addmessage`;
 
 export const Getmessage_request = `${host}/message/getmessage`;
+
+export const edituser_request = `${host}/api/auth/user//editusername`;

@@ -1,15 +1,24 @@
-import CheckIcon from "@mui/icons-material/Check";
-import DeleteIcon from "@mui/icons-material/Delete";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import EditIcon from "@mui/icons-material/Edit";
-import avtar_image from "../assert/Avtar_image.png";
-import { useState } from "react";
+import {
+  CheckIcon,
+  DeleteIcon,
+  CloudUploadIcon,
+  EditIcon,
+  avtar_image,
+} from "./ProfileData.js";
+import { useContext, useEffect, useState } from "react";
 import { Box, Avatar, Typography, TextField } from "@mui/material";
 import Try from "../../try/Try.jsx";
+import { Context } from "../../Contextapi/Contextapi";
+import { edituser_request } from "../../utils/Apiurl.js";
+import axios from "axios";
 function Profile() {
+  const { username, setusername, setSelected, Selected } = useContext(Context);
   const [icon_open, seticon_open] = useState(false);
   const [icon_open1, seticon_open1] = useState(false);
-  const [name, setname] = useState("username");
+  const [name, setname] = useState(username);
+  useEffect(() => {
+    setname(username);
+  }, [username]);
   const [About, setAbout] = useState(
     "Whether you think you can, or you think you can't – you're right"
   );
@@ -17,8 +26,21 @@ function Profile() {
   function handelopen() {
     seticon_open(true);
   }
-  function handelclose() {
+  async function handelclose() {
     seticon_open(false);
+    // setusername(name);
+    const response = await axios.post(`${edituser_request}/${username}`, {
+      previousname: username,
+      newname: name,
+    });
+    // change the localstorage
+    setusername(name);
+    let userdetails = localStorage.getItem("Whatsapp_chat");
+    userdetails = JSON.parse(userdetails);
+    userdetails["username"] = name;
+    localStorage.setItem("Whatsapp_chat", JSON.stringify(userdetails));
+    if (response.data.status) {
+    }
   }
   function handelopen1() {
     seticon_open1(true);
@@ -30,7 +52,6 @@ function Profile() {
     setfile(false);
   }
   function handelfileopen(event) {
-    // console.log(event.target.files);
     const filex = event.target.files[0];
     if (filex) {
       const reader = new FileReader();
@@ -40,7 +61,6 @@ function Profile() {
       };
     }
   }
-  // console.log(file);
   return (
     <Box className="overflow-auto max-h-[calc(100vh-120px)] scrollbar-thin   scrollbar-track-transparent scrollbar-thumb-transparent">
       <Box>
@@ -74,7 +94,7 @@ function Profile() {
             <Box className="px-7 flex flex-row">
               {!icon_open && (
                 <Typography className="text-white text-pretty text-xl w-[90%]">
-                  {name}
+                  {username}
                 </Typography>
               )}
               {icon_open && (
