@@ -10,22 +10,22 @@ function ChatMessage({ messages, Sender, Reciver }) {
   function formatTimeDifference(createdAt) {
     const currentTime = new Date();
     const createdTime = new Date(createdAt);
-    const timeDifferenceInSeconds = Math.floor(
-      (currentTime - createdTime) / 1000
-    );
-    if (timeDifferenceInSeconds < 60) {
-      return timeDifferenceInSeconds + " seconds ago";
-    } else if (timeDifferenceInSeconds < 3600) {
-      const minutes = Math.floor(timeDifferenceInSeconds / 60);
-      return minutes + " minutes ago";
-    } else if (timeDifferenceInSeconds < 86400) {
-      const hours = Math.floor(timeDifferenceInSeconds / 3600);
-      return hours + " hours ago";
-    } else if (timeDifferenceInSeconds >= 86400) {
-      const days = Math.floor(timeDifferenceInSeconds / 86400);
-      return days + " days ago";
+    let hours, minutes;
+    hours = createdTime.getHours();
+    minutes = createdTime.getMinutes();
+    if (hours <= 12 || hours <= 24) {
+      minutes = `${minutes >= 9 ? "" : "0"}${minutes}`;
+      return `${hours <= 12 ? hours : hours - 12}:${minutes} ${
+        hours <= 12 ? "AM" : "PM"
+      }`;
     } else {
-      return "just now";
+      hours = currentTime.getHours();
+      minutes = `${
+        currentTime.getMinutes() >= 9 ? "" : "0"
+      }${currentTime.getMinutes()}`;
+      return `${hours <= 12 ? hours : hours - 12}:${minutes} ${
+        hours <= 12 ? "AM" : "PM"
+      }`;
     }
   }
   return (
@@ -56,7 +56,6 @@ function ChatMessage({ messages, Sender, Reciver }) {
           );
         })}
       </Box>
-      {/* <Box></Box> */}
     </div>
   );
 }
