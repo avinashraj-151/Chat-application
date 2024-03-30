@@ -8,9 +8,9 @@ import { Addmessage_request, Getmessage_request } from "../utils/Apiurl.js";
 import { Context } from "../Contextapi/Contextapi.jsx";
 function Chat() {
   const scrollRef = useRef();
-  const [messages, setallmessages] = useState([]);
   const [arrival, setarrival] = useState(undefined);
-  const { Selected, username, socket } = useContext(Context);
+  const { Selected, username, socket, messages, setallmessages } =
+    useContext(Context);
   async function handelallmessages(message) {
     const response = await axios.post(Addmessage_request, {
       msg: message,
@@ -57,12 +57,14 @@ function Chat() {
   }, []);
   useEffect(() => {
     if (arrival) {
+      // console.log(arrival);
       setallmessages([...messages, arrival]);
     }
   }, [arrival]);
   useEffect(() => {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
   return (
     <Box className="w-full h-full bg-[#1E5095]">
       <Box className="flex flex-col h-full">
@@ -71,7 +73,7 @@ function Chat() {
         </Box>
         {/* 11348F */}
         <Box className="h-[73%] ">
-          <ChatMessage messages={messages} />
+          <ChatMessage />
         </Box>
         <Box className="h-[15%] ">
           <ChatInput setmessage={handelallmessages}></ChatInput>

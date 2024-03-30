@@ -73,7 +73,7 @@ function ChatContainer() {
         {Selected === undefined ? (
           <Welcome username={username}></Welcome>
         ) : (
-          <Chat Selected={Selected} username={username} socket={socket}></Chat>
+          <Chat></Chat>
         )}
       </Box>
     </Box>

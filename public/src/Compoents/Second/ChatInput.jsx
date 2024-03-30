@@ -4,7 +4,7 @@ import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
 import ImageIcon from "@mui/icons-material/Image";
 import { useState } from "react";
 function ChatInput({ setmessage }) {
-  const [currentmessage, setcurrentmessage] = useState(undefined);
+  const [currentmessage, setcurrentmessage] = useState("");
   function handelchange(e) {
     setcurrentmessage(e.target.value);
   }

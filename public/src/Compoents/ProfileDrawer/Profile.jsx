@@ -9,13 +9,14 @@ import { useContext, useEffect, useState } from "react";
 import { Box, Avatar, Typography, TextField } from "@mui/material";
 import Try from "../../try/Try.jsx";
 import { Context } from "../../Contextapi/Contextapi";
-import { edituser_request } from "../../utils/Apiurl.js";
+import { edituser_request, Getmessage_request } from "../../utils/Apiurl.js";
 import axios from "axios";
 function Profile() {
-  const { username, setusername, setSelected, Selected } = useContext(Context);
+  const { username, setusername, setallmessages, Selected } =
+    useContext(Context);
   const [icon_open, seticon_open] = useState(false);
   const [icon_open1, seticon_open1] = useState(false);
-  const [name, setname] = useState(username);
+  const [name, setname] = useState("");
   useEffect(() => {
     setname(username);
   }, [username]);
@@ -29,17 +30,22 @@ function Profile() {
   async function handelclose() {
     seticon_open(false);
     // setusername(name);
-    const response = await axios.post(`${edituser_request}/${username}`, {
-      previousname: username,
-      newname: name,
-    });
-    // change the localstorage
-    setusername(name);
-    let userdetails = localStorage.getItem("Whatsapp_chat");
-    userdetails = JSON.parse(userdetails);
-    userdetails["username"] = name;
-    localStorage.setItem("Whatsapp_chat", JSON.stringify(userdetails));
-    if (response.data.status) {
+    if (username != name) {
+      const response = await axios.post(`${edituser_request}/${username}`, {
+        previousname: username,
+        newname: name,
+      });
+      // change the localstorage
+      let userdetails = localStorage.getItem("Whatsapp_chat");
+      userdetails = JSON.parse(userdetails);
+      userdetails["username"] = name;
+      localStorage.setItem("Whatsapp_chat", JSON.stringify(userdetails));
+      const response1 = await axios.post(Getmessage_request, {
+        receiver: Selected,
+        sender: name,
+      });
+      setallmessages(response1.data.result);
+      setusername(name);
     }
   }
   function handelopen1() {

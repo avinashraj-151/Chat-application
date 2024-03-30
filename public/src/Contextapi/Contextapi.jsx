@@ -4,6 +4,7 @@ export const Context = createContext();
 const ContextProvider = (props) => {
   const [username, setusername] = useState("username");
   const [Selected, setSelected] = useState(undefined);
+  const [messages, setallmessages] = useState([]);
   const socket = useRef();
   const ContextValue = {
     username,
@@ -11,6 +12,8 @@ const ContextProvider = (props) => {
     socket,
     setSelected,
     Selected,
+    messages,
+    setallmessages,
   };
   return (
     <Context.Provider value={ContextValue}>{props.children}</Context.Provider>
