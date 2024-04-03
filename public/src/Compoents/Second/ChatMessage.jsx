@@ -15,7 +15,7 @@ function ChatMessage() {
     hours = createdTime.getHours();
     minutes = createdTime.getMinutes();
     if (hours <= 12 || hours <= 24) {
-      minutes = `${minutes >= 9 ? "" : "0"}${minutes}`;
+      minutes = `${minutes <= 9 ? "0" : ""}${minutes}`;
       return `${hours <= 12 ? hours : hours - 12}:${minutes} ${
         hours <= 12 ? "AM" : "PM"
       }`;
